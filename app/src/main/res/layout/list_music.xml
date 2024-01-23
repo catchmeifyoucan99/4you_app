@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="10"
+    android:layout_marginLeft="16dp"
+    android:layout_marginRight="16dp"
+    android:background="#00BCD4"
+    tools:context=".Activity.ListMusic">
+
+    <TextView
+        android:id="@+id/casi"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.6"
+        android:fontFamily="serif"
+        android:text="Tên ca sĩ"
+        android:textAlignment="center"
+        android:textColor="#0000ff"
+        android:textSize="20sp"
+        android:textStyle="bold|italic" />
+    <ListView
+        android:id="@+id/nhac"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="7">
+
+    </ListView>
+
+    <TextView
+        android:id="@+id/dang_phat"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.75"
+        android:fontFamily="serif"
+        android:text="Đang phát: "
+        android:textColor="#0000ff"
+        android:textSize="20sp"
+        tools:ignore="HardcodedText"/>
+    <LinearLayout
+        android:weightSum="2"
+        android:orientation="horizontal"
+        android:layout_weight="0.5"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+
+        <TextView
+            android:id="@+id/time_play"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textAlignment="textStart"
+            tools:ignore="NestedWeights" />
+
+        <TextView
+            android:id="@+id/time_out"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textAlignment="textEnd" />
+
+    </LinearLayout>
+    <SeekBar
+        android:id="@+id/seebar"
+        android:layout_weight="0.5"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"/>
+    <LinearLayout
+        android:layout_marginLeft="90dp"
+        android:layout_marginRight="90dp"
+        android:weightSum="3"
+        android:orientation="horizontal"
+        android:layout_weight="0.5"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+
+        <ImageButton
+            android:background="@null"
+            android:scaleType="fitXY"
+            android:id="@+id/re"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:srcCompat="@android:drawable/ic_media_rew"
+            tools:ignore="NestedWeights"/>
+
+        <ImageButton
+            android:background="@null"
+            android:scaleType="fitXY"
+            android:id="@+id/pause"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:srcCompat="@android:drawable/ic_media_play"
+            tools:ignore="NestedWeights"/>
+
+        <ImageButton
+            android:background="@null"
+            android:scaleType="fitXY"
+            android:id="@+id/next"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:srcCompat="@android:drawable/ic_media_ff"
+            tools:ignore="NestedWeights" />
+    </LinearLayout>
+</LinearLayout>
