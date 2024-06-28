@@ -1,8 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="oval">
-    <size android:height="35dp" android:width="35dp"/>
-    <solid android:color="#B3EBE6E6">
-
-    </solid>
+    <solid android:color="#EAE3E3" /> <!-- Thay @color/your_color_here bằng màu bạn muốn -->
+    <size
+        android:width="120dp"
+    android:height="10dp" />
 </shape>

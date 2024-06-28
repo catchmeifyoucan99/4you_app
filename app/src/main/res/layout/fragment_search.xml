@@ -41,7 +41,9 @@
             android:background="@drawable/border_radius"
             android:layout_marginEnd="1dp"
             android:layout_marginBottom="2dp"
-            tools:ignore="HardcodedText" />
+            android:paddingStart="5dp"
+            android:queryHint="Bạn muốn nghe nhạc ?"
+        tools:ignore="HardcodedText" />
 
 
         <TextView
@@ -54,12 +56,10 @@
             android:layout_marginBottom="10dp"
             android:layout_marginTop="15dp"/>
 
-        <GridView
-            android:id="@+id/gv"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv1"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="0dp"
-            android:numColumns="2"
-            tools:ignore="NestedScrolling" />
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
     </LinearLayout>
 </ScrollView>

@@ -12,6 +12,36 @@
         android:theme="@style/Theme.MusicApp"
         tools:targetApi="31">
         <activity
+            android:name=".Activity.SingerSongsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.HeartSongActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.ThanhToanActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.EditSongActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.AdminApprovalActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.EditAvatarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.LoginAdminActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.RegisterAdminActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.ListSongActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.InfoAccountActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activity.AdminActivity"
             android:exported="false" />
         <activity
@@ -21,7 +51,7 @@
             android:name=".Activity.LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".Fragment.SplashActivity"
+            android:name=".Activity.SplashActivity"
             android:exported="true"
             android:theme="@style/SplashTheme">
             <intent-filter>
@@ -39,6 +69,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".Activity.TheLoaiActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.CategorySongsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.PlaySongActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

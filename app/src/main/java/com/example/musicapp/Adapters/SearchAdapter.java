@@ -1,96 +1,103 @@
 package com.example.musicapp.Adapters;
 
-import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Filter;
-import android.widget.Filterable;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.musicapp.Models.SearchModel;
+import com.example.musicapp.Models.Song;
 import com.example.musicapp.R;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
+import java.util.List;
 
-public class SearchAdapter extends ArrayAdapter<SearchModel> implements Filterable {
-    Activity context;
-    int Idlayout;
-    ArrayList<SearchModel> mylist;
-    ArrayList<SearchModel> filteredList;
+public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder> {
+    private Context mContext;
+    private List<Song> mSongList;
+    private OnItemClickListener listener;
 
-
-    public SearchAdapter(Activity context, int idlayout, ArrayList<SearchModel> mylist) {
-        super(context, idlayout, mylist);
-        this.context = context;
-        Idlayout = idlayout;
-        this.mylist = new ArrayList<>(mylist);
-        this.filteredList = new ArrayList<>(mylist);
+    public interface OnItemClickListener {
+        void onItemClick(Song song);
     }
 
-
-
-    private static class ViewHolder {
-        ImageView img_item;
-        TextView txt_name;
+    public SearchAdapter(Context context, List<Song> songs, OnItemClickListener listener) {
+        this.mContext = context;
+        this.mSongList = songs;
+        this.listener = listener;
     }
 
-    @NonNull
-    @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        ViewHolder holder;
+    public void setSongs(List<Song> songs) {
+        mSongList = songs;
+        notifyDataSetChanged(); // Thông báo cho RecyclerView cập nhật lại giao diện
+    }
 
-        if (convertView == null) {
-            LayoutInflater inflater = LayoutInflater.from(context);
-            convertView = inflater.inflate(Idlayout, parent, false);
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        ImageView avatarsong;
+        TextView textViewSongTitle;
+        TextView textViewArtist;
+        TextView textViewAuthor;
+        TextView categoryTextView;
 
-            holder = new ViewHolder();
-            holder.img_item = convertView.findViewById(R.id.img_item);
-            holder.txt_name = convertView.findViewById(R.id.txt_name);
+        public ViewHolder(View itemView) {
+            super(itemView);
+            avatarsong = itemView.findViewById(R.id.avatarsong);
+            textViewSongTitle = itemView.findViewById(R.id.textSongTitle);
+            textViewArtist = itemView.findViewById(R.id.textArtist);
+            textViewAuthor = itemView.findViewById(R.id.textAuthor);
+            categoryTextView = itemView.findViewById(R.id.category);
 
-            convertView.setTag(holder);
-        } else {
-            holder = (ViewHolder) convertView.getTag();
         }
-
-        SearchModel myitem = getItem(position);
-        if (myitem != null) {
-            holder.img_item.setImageResource(myitem.getImage());
-            holder.txt_name.setText(myitem.getName());
-        }
-
-        return convertView;
-    }
-    @NonNull
-    @Override
-    public Filter getFilter() {
-        return new Filter() {
-            @Override
-            protected FilterResults performFiltering(CharSequence constraint) {
-                String filterPattern = constraint.toString().toLowerCase().trim();
-                filteredList.clear();
-
-                for (SearchModel currentItem : mylist) {
-                    if (currentItem.getName().toLowerCase().contains(filterPattern)) {
-                        filteredList.add(currentItem);
-                    }
+        public void bind(Song song, SearchAdapter.OnItemClickListener listener) {
+            // Sự kiện click cho item
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onItemClick(song);
                 }
-                FilterResults results = new FilterResults();
-                results.values = filteredList;
-                return results;
-            }
+            });
+        }
+    }
+    public SearchAdapter(Context context, List<Song> songList) {
+        mContext = context;
+        mSongList = songList;
+    }
 
-            @Override
-            protected void publishResults(CharSequence constraint, FilterResults results) {
-                clear();
-                addAll((ArrayList<SearchModel>) results.values);
-                notifyDataSetChanged();
-            }
-        };
+    @NonNull
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.song_category, parent, false);
+        return new ViewHolder(itemView);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        Song song = mSongList.get(position);
+
+        // Đặt nội dung cho các TextView
+        Picasso.get().load(song.getAvatarSong()).into(holder.avatarsong);
+        holder.textViewSongTitle.setText(song.getTitle());
+        holder.textViewArtist.setText("Artist: " + song.getArtist());
+        holder.textViewAuthor.setText("Author: " + song.getAuthor());
+        holder.categoryTextView.setText("Thể loại: " + song.getCategory());
+
+        holder.bind(song, listener);
+    }
+
+    @Override
+    public int getItemCount() {
+        return mSongList.size();
     }
 }

@@ -3,72 +3,83 @@ package com.example.musicapp.Activity;
 import android.annotation.SuppressLint;
 import android.content.ContentResolver;
 import android.content.Intent;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.OpenableColumns;
 import android.view.View;
 import android.webkit.MimeTypeMap;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.musicapp.Models.Song;
 import com.example.musicapp.R;
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+import android.text.TextUtils;
 
-public class AdminActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
-    TextView tVImage;
-    ProgressBar progressBar;
-    Uri audioUri;
-    StorageReference mStorageref;
-    StorageTask mUploadsTask;
-    DatabaseReference referenceSongs;
-    String songCategory;
-    MediaMetadataRetriever metadataRetriever;
-    byte[] art;
-    String titel_song1, artist1, album_art1= "", duration1;
-    TextView titel_song ,album , artist, duration, dataa;
-    ImageView imageSong;
+public class AdminActivity extends AppCompatActivity {
+    private static final int PICK_AUDIO_REQUEST = 1;
+    private static final int PICK_IMAGE_REQUEST = 2;
 
+    private Button btnOpenAudioFiles, btnUpload;
+    private TextView tVSongFileSelect;
+    private EditText titleSong, album, artist, author;
+    private ImageView imageSong;
+    private Button chosseavatar;
+    private Spinner spinner;
+    private ProgressBar progressBar;
+
+    private Uri audioUri;
+    private StorageReference storageReference;
+    private StorageReference imageStorageReference;
+    Button btn_listsong;
+    private Uri selectedImageUri;
+
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin);
-        tVImage = findViewById(R.id.tVSongFileSelect);
-        progressBar = findViewById(R.id.progressBar);
-        titel_song = findViewById(R.id.title_song);
-        artist = findViewById(R.id.artist);
-        duration = findViewById(R.id.duration);
-        album = findViewById(R.id.album);
-        dataa = findViewById(R.id.dataa);
-        imageSong = findViewById(R.id.imageSong);
 
-        metadataRetriever = new MediaMetadataRetriever();
-        referenceSongs = FirebaseDatabase.getInstance().getReference().child("songs");
-        mStorageref = FirebaseStorage.getInstance().getReference().child("songs");
+        storageReference = FirebaseStorage.getInstance().getReference("audio_files");
+        imageStorageReference = FirebaseStorage.getInstance().getReference().child("avatarSinger");
+
+        btnOpenAudioFiles = findViewById(R.id.openAudioFiles);
+        btnUpload = findViewById(R.id.btnUpload);
+        tVSongFileSelect = findViewById(R.id.tVSongFileSelect);
+        titleSong = findViewById(R.id.title_song);
+        album = findViewById(R.id.album);
+        artist = findViewById(R.id.artist);
+        author = findViewById(R.id.author);
+        imageSong = findViewById(R.id.imageSong);
+        chosseavatar = findViewById(R.id.chosseavatar);
+        spinner = findViewById(R.id.spinner);
+        progressBar = findViewById(R.id.progressBar);
+        btn_listsong = findViewById(R.id.btn_listsong);
 
         Spinner spinner = findViewById(R.id.spinner);
-        spinner.setOnItemSelectedListener(this);
-
         List<String> category = new ArrayList<>();
         category.add("Love Songs");
         category.add("Sad Songs");
@@ -79,115 +90,170 @@ public class AdminActivity extends AppCompatActivity implements AdapterView.OnIt
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,category);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(dataAdapter);
+
+        btnOpenAudioFiles.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openAudioFiles();
+            }
+        });
+        btnUpload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                uploadFileToFirebase();
+            }
+        });
+
+        //chọn ảnh cho bài hát
+        chosseavatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openGallery();
+            }
+        });
+
+        btn_listsong.setOnClickListener(v-> xemlistsong());
+    }
+    private void openGallery() {
+        Intent galleryIntent = new Intent();
+        galleryIntent.setType("image/*");
+        galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(galleryIntent, "Chọn ảnh"), PICK_IMAGE_REQUEST);
+
+
+    }
+    private void xemlistsong() {
+        Intent intent = new Intent(AdminActivity.this, ListSongActivity.class);
+        startActivity(intent);
+    }
+
+    private void openAudioFiles() {
+        Intent intent = new Intent();
+        intent.setType("audio/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(intent, PICK_AUDIO_REQUEST);
     }
 
     @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        songCategory = parent.getItemAtPosition(position).toString();
-        Toast.makeText(this,"Selected: " +songCategory, Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
-    }
-    //Click btn UpLoad Song
-    public  void openAudioFiles(View v)
-    {
-        Intent i = new Intent(Intent.ACTION_GET_CONTENT);
-        i.setType("audio/*");
-        startActivityForResult(i,101);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 101 || resultCode == RESULT_OK || data.getData() != null)
-        {
+        //chọn file nhạc
+        if (requestCode == PICK_AUDIO_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             audioUri = data.getData();
-            String fileName = getFileName(audioUri);
-            tVImage.setText(fileName);
-
-            metadataRetriever.setDataSource(this,audioUri);
-
-            art = metadataRetriever.getEmbeddedPicture();
-            Bitmap bitmap = BitmapFactory.decodeByteArray(art,0,art.length);
-            imageSong.setImageBitmap(bitmap);
-            titel_song.setText(metadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE));
-            album.setText(metadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ALBUM));
-            artist.setText(metadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ARTIST));
-            dataa.setText(metadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_GENRE));
-            duration.setText(metadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION));
-
-            artist1 = metadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ARTIST);
-            titel_song1 = metadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE);
-            duration1 = metadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
+            tVSongFileSelect.setText(audioUri.getLastPathSegment());
         }
-    }
-    @SuppressLint("Range")
-    private  String getFileName(Uri uri)
-    {
-        String result = null;
-        if (uri.getScheme().equals("content"))
-        {
-            Cursor cursor = getContentResolver().query(uri,null,null,null,null);
-            try {
-                if (cursor != null || cursor.moveToFirst())
-                    result = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
-            }
-            finally {
-                cursor.close();
-            }
-        }
-        if (result == null)
-        {
-            result = uri.getPath();
-            int cut = result.lastIndexOf('/');
-            if (cut != -1)
-            {
-                result = result.substring(cut+1);
-            }
-        }
-        return  result;
-    }
-    public  void  uploadFileToFirebase(View v)
-    {
-        if (tVImage.equals("No file Selected"))
-        {
-            Toast.makeText(this,"Please selected an image",Toast.LENGTH_SHORT).show();
-        }else {
-            if (mUploadsTask != null || mUploadsTask.isInProgress())
-            {
-                Toast.makeText(this,"songs upload is allready progress!",Toast.LENGTH_SHORT).show();
-            }else {
-                upLoadFiles();
-            }
+
+        //chọn ảnh
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            selectedImageUri = data.getData();
+
+            // Hiển thị hình ảnh ngay sau khi chọn từ thư viện
+            Picasso.get().load(selectedImageUri).into(imageSong);
         }
     }
 
-    private void upLoadFiles() {
-        if (audioUri != null)
-        {
-            Toast.makeText(this,"Uploads please wait",Toast.LENGTH_SHORT).show();
-            progressBar.setVisibility(View.VISIBLE);
-            final  StorageReference storageReference = mStorageref.child(System.currentTimeMillis()+"."+getfileEtension(audioUri));
-            mUploadsTask = storageReference.putFile(audioUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                        @Override
-                        public void onSuccess(Uri uri) {
+    private void uploadFileToFirebase() {
+        if (selectedImageUri != null && audioUri != null) {
+            /// Kiểm tra xem tất cả các trường thông tin đã được điền đầy đủ chưa
+            if (TextUtils.isEmpty(titleSong.getText().toString()) ||
+                    TextUtils.isEmpty(album.getText().toString()) ||
+                    TextUtils.isEmpty(artist.getText().toString()) ||
+                    TextUtils.isEmpty(author.getText().toString()) ||
+                    spinner.getSelectedItem() == null ||
+                    selectedImageUri == null ||
+                    audioUri == null) {
+                // Thông báo lỗi nếu có trường thông tin nào đó còn thiếu
+                Toast.makeText(AdminActivity.this, "Vui lòng điền đầy đủ thông tin bài hát.", Toast.LENGTH_LONG).show();
+            } else {
+                // Hiển thị ProgressBar khi bắt đầu tải lên
+                progressBar.setVisibility(View.VISIBLE);
 
+                // Tạo một StorageReference cho tệp ảnh và lưu vào thư mục "avatarSinger"
+                final StorageReference imageFileReference = imageStorageReference.child(System.currentTimeMillis() + "." + getFileExtension(selectedImageUri));
+
+                // Tạo một StorageReference cho tệp nhạc và lưu vào thư mục "audio_files"
+                final StorageReference audioFileReference = storageReference.child(System.currentTimeMillis() + "." + getFileExtension(audioUri));
+
+                // Tiến hành tải lên ảnh
+                UploadTask imageUploadTask = imageFileReference.putFile(selectedImageUri);
+                imageUploadTask.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                    }
+                }).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            // Lấy URL của ảnh
+                            imageFileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri imageUri) {
+                                    // Tiến hành tải lên file nhạc
+                                    UploadTask audioUploadTask = audioFileReference.putFile(audioUri);
+                                    audioUploadTask.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                                        @Override
+                                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                                            // Hiển thị tiến trình upload
+                                            double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
+                                            progressBar.setProgress((int) progress);
+                                        }
+                                    }).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                                            // Ẩn ProgressBar khi tải lên hoàn thành hoặc gặp lỗi
+                                            progressBar.setVisibility(View.GONE);
+
+                                            if (task.isSuccessful()) {
+                                                // Lấy URL của nhạc
+                                                audioFileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                                    @Override
+                                                    public void onSuccess(Uri audioUri) {
+                                                        // Lưu thông tin bài hát vào Firebase Database
+                                                        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("songs");
+                                                        String songId = databaseReference.push().getKey();
+                                                        // Tất cả các trường thông tin đã được điền đầy đủ, tiến hành tạo đối tượng Song và tải lên
+                                                        // Tạo một đối tượng Song
+                                                        Song song = new Song(songId,
+                                                                titleSong.getText().toString(),
+                                                                album.getText().toString(),
+                                                                artist.getText().toString(),
+                                                                author.getText().toString(),
+                                                                spinner.getSelectedItem().toString(),
+                                                                audioUri.toString(), // Sử dụng uri của hình ảnh
+                                                                imageUri.toString()); // Sử dụng uri của file nhạc
+
+                                                        // Lưu thông tin bài hát vào Firebase Database
+                                                        databaseReference.child(songId).setValue(song);
+
+                                                        // Thông báo upload thành công
+                                                        Toast.makeText(AdminActivity.this, "Upload thành công.", Toast.LENGTH_LONG).show();
+                                                    }
+                                                });
+                                            } else {
+                                                // Upload file nhạc thất bại
+                                                Toast.makeText(AdminActivity.this, "Upload audio file failed: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                                            }
+                                        }
+                                    });
+                                }
+                            });
+                        } else {
+                            // Upload ảnh thất bại
+                            progressBar.setVisibility(View.GONE);
+                            Toast.makeText(AdminActivity.this, "Upload image failed: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
                         }
-                    });
-                }
-            });
+                    }
+                });
+            }
         }
-    }
-    private String getfileEtension(Uri audioUri)
-    {
+        else {
+                Toast.makeText(this, "Vui lòng chọn đủ file nhạc và file ảnh", Toast.LENGTH_SHORT).show();
+            }
+        }
+    private String getFileExtension(Uri audioUri) {
         ContentResolver contentResolver = getContentResolver();
         MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
         return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(audioUri));
     }
+
 }

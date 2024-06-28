@@ -32,11 +32,11 @@
                 android:textStyle="bold" />
 
             <ImageButton
-                android:id="@+id/imgBtn_avatar"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:id="@+id/avatar"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_gravity="center"
-                android:layout_marginStart="230dp"
+                android:layout_marginStart="220dp"
                 android:background="@drawable/picture_avatar"
                 android:contentDescription="@string/todo"
                 android:padding="3dp"
@@ -127,46 +127,58 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <!-- Nhac Viet -->
+                <!-- Love Song -->
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/loveSong"
                     android:layout_width="160dp"
                     android:layout_height="0.5in"
                     android:layout_marginEnd="19dp"
                     app:cardCornerRadius="8dp"
                     app:cardElevation="5dp"
                     tools:ignore="InOrMmUsage"
-                    app:cardBackgroundColor="#5B9CEC">
-
+                    app:cardBackgroundColor="#FBA6A6">
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:src="@drawable/lovesong"
+                        android:layout_marginStart="20dp"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
                         android:layout_marginTop="50dp"
-                        android:text="Nhạc Việt"
-                        android:textColor="@color/white"
+                        android:text="Love Song"
+                        android:textColor="#F0D61010"
                         android:textSize="18sp"
                         android:textStyle="bold"
                         tools:ignore="HardcodedText,TextContrastCheck">
-
                     </TextView>
 
                 </androidx.cardview.widget.CardView>
 
-                <!-- Nhac Au My -->
+                <!-- Nhac Sad Songs -->
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/sadSong"
                     android:layout_width="160dp"
                     android:layout_height="0.5in"
                     android:layout_marginEnd="19dp"
                     app:cardCornerRadius="8dp"
                     app:cardElevation="5dp"
                     tools:ignore="InOrMmUsage"
-                    app:cardBackgroundColor="#B63AD8">
+                    app:cardBackgroundColor="#D5A8C1">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="5dp"
+                        android:src="@drawable/sadsong" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Nhạc Âu Mỹ"
-                        android:textColor="@color/white"
+                        android:text="Sad Song"
+                        android:textColor="#F08C2F2F"
                         android:textSize="18sp"
                         android:textStyle="bold"
                         android:layout_marginStart="15dp"
@@ -176,21 +188,27 @@
 
                 </androidx.cardview.widget.CardView>
 
-                <!-- Nhac Kpop -->
+                <!-- Nhac Party Songs -->
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/partySong"
                     android:layout_width="160dp"
                     android:layout_height="0.5in"
                     android:layout_marginEnd="19dp"
                     app:cardCornerRadius="8dp"
                     app:cardElevation="5dp"
                     tools:ignore="InOrMmUsage"
-                    app:cardBackgroundColor="#F45B2A">
-
+                    app:cardBackgroundColor="#D8CCA6">
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/partysong"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="5dp"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Nhạc Kpop"
-                        android:textColor="@color/white"
+                        android:text="Party Song"
+                        android:textColor="#F0C34F95"
                         android:textSize="18sp"
                         android:textStyle="bold"
                         android:layout_marginStart="15dp"
@@ -200,21 +218,27 @@
 
                 </androidx.cardview.widget.CardView>
 
-                <!-- Nhac Chill -->
+                <!-- Nhac Birthday Songs -->
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/birthdaySong"
                     android:layout_width="160dp"
                     android:layout_height="0.5in"
                     android:layout_marginEnd="19dp"
                     app:cardCornerRadius="8dp"
                     app:cardElevation="5dp"
                     tools:ignore="InOrMmUsage"
-                    app:cardBackgroundColor="#E129B3">
-
+                    app:cardBackgroundColor="#D6BEBD">
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/birthdaysong"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="5dp"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Nhạc Chill"
-                        android:textColor="@color/white"
+                        android:text="Birthday Song"
+                        android:textColor="#C8D6749B"
                         android:textSize="18sp"
                         android:textStyle="bold"
                         android:layout_marginStart="15dp"
@@ -224,20 +248,26 @@
 
                 </androidx.cardview.widget.CardView>
 
-                <!-- Nhac Rap -->
+                <!-- Nhac Rap Song -->
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/rapSong"
                     android:layout_width="160dp"
                     android:layout_height="0.5in"
                     app:cardCornerRadius="8dp"
                     app:cardElevation="5dp"
                     tools:ignore="InOrMmUsage"
-                    app:cardBackgroundColor="#4CAF50">
-
+                    app:cardBackgroundColor="#B7C9DD">
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/rapsong"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="5dp"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Nhạc Rap"
-                        android:textColor="@color/white"
+                        android:text="Rap Song"
+                        android:textColor="#5BAAD5"
                         android:textSize="18sp"
                         android:textStyle="bold"
                         android:layout_marginStart="15dp"
@@ -300,350 +330,16 @@
                 android:textStyle="bold">
             </TextView>
         </LinearLayout>
+
         <!--List Album-->
-        <HorizontalScrollView
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewAlbum"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:overScrollMode="always"
-            android:scrollbars="none">
+            android:layout_height="170dp"
+            android:padding="5dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:orientation="horizontal"/>
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="160dp"
-                    android:layout_height="160dp"
-                    android:layout_marginEnd="19dp"
-                    app:cardCornerRadius="8dp"
-                    app:cardElevation="5dp"
-                    tools:ignore="InOrMmUsage"
-                    app:cardBackgroundColor="#5B9CEC">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="15dp"
-                        android:layout_marginTop="50dp"
-                        android:text=""
-                        android:textColor="@color/white"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        tools:ignore="HardcodedText,TextContrastCheck">
-
-                    </TextView>
-
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="160dp"
-                        android:layout_height="160dp"
-                        android:layout_marginEnd="19dp"
-                        app:cardBackgroundColor="#B63AD8"
-                        app:cardCornerRadius="8dp"
-                        app:cardElevation="5dp"
-                        tools:ignore="InOrMmUsage">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="15dp"
-                            android:layout_marginTop="50dp"
-                            android:text=""
-                            android:textColor="@color/white"
-                            android:textSize="18sp"
-                            android:textStyle="bold"
-                            tools:ignore="HardcodedText">
-                        </TextView>
-
-                    </androidx.cardview.widget.CardView>
-
-                </androidx.cardview.widget.CardView>
-
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="160dp"
-                    android:layout_height="160dp"
-                    android:layout_marginEnd="19dp"
-                    app:cardCornerRadius="8dp"
-                    app:cardElevation="5dp"
-                    tools:ignore="InOrMmUsage"
-                    app:cardBackgroundColor="#F45B2A">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text=""
-                        android:textColor="@color/white"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:layout_marginStart="15dp"
-                        android:layout_marginTop="50dp"
-                        tools:ignore="HardcodedText">
-                    </TextView>
-
-                </androidx.cardview.widget.CardView>
-
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="160dp"
-                    android:layout_height="160dp"
-                    android:layout_marginEnd="19dp"
-                    app:cardCornerRadius="8dp"
-                    app:cardElevation="5dp"
-                    tools:ignore="InOrMmUsage"
-                    app:cardBackgroundColor="#E129B3">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text=""
-                        android:textColor="@color/white"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:layout_marginStart="15dp"
-                        android:layout_marginTop="50dp"
-                        tools:ignore="HardcodedText">
-                    </TextView>
-
-                </androidx.cardview.widget.CardView>
-
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="160dp"
-                    android:layout_height="160dp"
-                    app:cardCornerRadius="8dp"
-                    app:cardElevation="5dp"
-                    tools:ignore="InOrMmUsage"
-                    app:cardBackgroundColor="#4CAF50">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text=""
-                        android:textColor="@color/white"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:layout_marginStart="15dp"
-                        android:layout_marginTop="50dp"
-                        tools:ignore="HardcodedText">
-                    </TextView>
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="100dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginEnd="0dp"
-                    android:layout_gravity="center">
-
-                    <ImageView
-                        android:layout_width="35dp"
-                        android:layout_height="35dp"
-                        android:contentDescription="@string/todo"
-                        android:background="@drawable/xemtatca_item"
-                        android:layout_gravity="center"
-                        android:layout_marginBottom="10dp"
-                        android:src="@drawable/right"
-                        android:padding="9dp">
-                    </ImageView>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Xem tất cả"
-                        android:textColor="#706A6A"
-                        android:gravity="center"
-                        android:textSize="11sp"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="20dp"
-                        tools:ignore="HardcodedText">
-                    </TextView>
-                </androidx.cardview.widget.CardView>
-            </LinearLayout>
-        </HorizontalScrollView>
-
-        <!--Top 100-->
-        <LinearLayout
-            android:id="@+id/top100_navbar"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="20dp">
-
-            <TextView
-                android:id="@+id/top100_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="9dp"
-                android:text="@string/top_100"
-                android:textColor="@color/textTitleColor"
-                android:textSize="25sp"
-                android:textStyle="bold"
-                tools:ignore="TextContrastCheck">
-            </TextView>
-        </LinearLayout>
-        <!--List Top 100-->
-        <HorizontalScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:overScrollMode="always"
-            android:scrollbars="none"
-            android:background="@color/white">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="160dp"
-                    android:layout_height="160dp"
-                    android:layout_marginEnd="19dp"
-                    app:cardCornerRadius="8dp"
-                    app:cardElevation="5dp"
-                    tools:ignore="InOrMmUsage"
-                    app:cardBackgroundColor="#5B9CEC">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="15dp"
-                        android:layout_marginTop="50dp"
-                        android:text=""
-                        android:textColor="@color/white"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        tools:ignore="HardcodedText,TextContrastCheck">
-
-                    </TextView>
-
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="160dp"
-                        android:layout_height="160dp"
-                        android:layout_marginEnd="19dp"
-                        app:cardBackgroundColor="#B63AD8"
-                        app:cardCornerRadius="8dp"
-                        app:cardElevation="5dp"
-                        tools:ignore="InOrMmUsage">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="15dp"
-                            android:layout_marginTop="50dp"
-                            android:text=""
-                            android:textColor="@color/white"
-                            android:textSize="18sp"
-                            android:textStyle="bold"
-                            tools:ignore="HardcodedText">
-                        </TextView>
-
-                    </androidx.cardview.widget.CardView>
-
-                </androidx.cardview.widget.CardView>
-
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="160dp"
-                    android:layout_height="160dp"
-                    android:layout_marginEnd="19dp"
-                    app:cardCornerRadius="8dp"
-                    app:cardElevation="5dp"
-                    tools:ignore="InOrMmUsage"
-                    app:cardBackgroundColor="#F45B2A">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text=""
-                        android:textColor="@color/white"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:layout_marginStart="15dp"
-                        android:layout_marginTop="50dp"
-                        tools:ignore="HardcodedText">
-                    </TextView>
-
-                </androidx.cardview.widget.CardView>
-
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="160dp"
-                    android:layout_height="160dp"
-                    android:layout_marginEnd="19dp"
-                    app:cardCornerRadius="8dp"
-                    app:cardElevation="5dp"
-                    tools:ignore="InOrMmUsage"
-                    app:cardBackgroundColor="#E129B3">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text=""
-                        android:textColor="@color/white"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:layout_marginStart="15dp"
-                        android:layout_marginTop="50dp"
-                        tools:ignore="HardcodedText">
-                    </TextView>
-
-                </androidx.cardview.widget.CardView>
-
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="160dp"
-                    android:layout_height="160dp"
-                    app:cardCornerRadius="8dp"
-                    app:cardElevation="5dp"
-                    tools:ignore="InOrMmUsage"
-                    app:cardBackgroundColor="#4CAF50">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text=""
-                        android:textColor="@color/white"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:layout_marginStart="15dp"
-                        android:layout_marginTop="50dp"
-                        tools:ignore="HardcodedText">
-                    </TextView>
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="100dp"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:background="@color/white">
-
-                    <ImageView
-                        android:layout_width="35dp"
-                        android:layout_height="35dp"
-                        android:contentDescription="@string/todo"
-                        android:background="@drawable/xemtatca_item"
-                        android:layout_gravity="center"
-                        android:layout_marginBottom="10dp"
-                        android:src="@drawable/right"
-                        android:padding="9dp">
-                    </ImageView>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Xem tất cả"
-                        android:textColor="#706A6A"
-                        android:gravity="center"
-                        android:textSize="11sp"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="20dp"
-                        tools:ignore="HardcodedText">
-                    </TextView>
-                </androidx.cardview.widget.CardView>
-            </LinearLayout>
-        </HorizontalScrollView>
 
         <!--Bang Xep Hang-->
         <LinearLayout
@@ -658,7 +354,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="9dp"
-                android:text="@string/top_100"
+                android:text="Bảng xếp hạng"
                 android:textColor="@color/textTitleColor"
                 android:textSize="25sp"
                 android:textStyle="bold"
@@ -666,5 +362,79 @@
             </TextView>
         </LinearLayout>
         <!--List Bang Xep Hang-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="440dp">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:cardCornerRadius="13dp"
+                app:cardElevation="5dp"
+                tools:ignore="InOrMmUsage"
+                app:cardBackgroundColor="#000000">
+
+                <LinearLayout
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="90dp"
+                    android:layout_marginLeft="70dp"
+                    android:background="@drawable/gradient_backgroundz">
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="200dp"
+                    android:layout_height="110dp"
+                    android:background="@drawable/gradient_background">
+                    <TextView
+                        android:id="@+id/forYou"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="#4you"
+                        android:textSize="20sp"
+                        android:layout_marginTop="40dp"
+                        android:layout_marginLeft="10dp">
+                    </TextView>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="80dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="110dp"
+                    android:background="@drawable/gradient_backgrounds">
+                </LinearLayout>
+
+
+                <ImageView
+                    android:layout_width="190dp"
+                    android:layout_height="80dp"
+                    android:layout_gravity="right"
+                    android:background="@drawable/musictop"/>
+
+                <GridView
+                    android:id="@+id/gridView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="60dp"
+                    android:layout_marginLeft="1dp"
+                    android:layout_marginRight="1dp"
+                    android:layout_marginBottom="20dp">
+                </GridView>
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginTop="40dp"
+            android:text=""
+            >
+        </TextView>
+
+
+
     </LinearLayout>
 </ScrollView>
