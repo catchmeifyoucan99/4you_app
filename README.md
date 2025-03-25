@@ -1,10 +1,10 @@
-🚀 My First Experience with Android Development
+🎶 My First Experience with Android Development
 Semester 4 - Compulsory - 4You is the first Android application I built using Java and Android Studio. It was my first exposure to mobile development, and although challenging, it was an exciting journey. Through this project, I learned how to create a functional and interactive mobile application from scratch.
 
 📱 About the App
 This app provides a smooth and intuitive music experience with essential features such as:
 
-🎶 Playlist management – Organize and play favorite songs.
+🚀 Playlist management – Organize and play favorite songs.
 
 🔀 Song shuffle – Enjoy a randomized playback experience.
 
